@@ -1,0 +1,56 @@
+# Build folders
+[Bb]in/
+[Oo]bj/
+[Dd]ebug*/
+[Rr]elease*/
+
+# VS solution and user files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio workspace
+.vs/
+.vscode/
+
+# Visual Studio database and cache files
+*.dbmdl
+*.bak
+*.log
+*.pdb
+*.cachefile
+*.sdf
+*.opensdf
+
+# Rider files
+.idea/
+
+# NuGet packages & artifacts
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Tye tool
+.tye/
+
+# OS temporary files
+*.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Backup & temp files
+*~
+*.tmp
+*.bak
+
+# Other auto-generated files
+Generated\ Files/
+ClientBin/
