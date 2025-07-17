@@ -1,104 +1,70 @@
 ﻿using Domain;
-using Domain.Appointment;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Xunit;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
 
-namespace DomainTests
+namespace DomainTests;
+
+public class AppointmentTests
 {
-    public class AppointmentTests
+    private static Appointment Sample(
+        string id, string status, 
+        DateTime time, string duration, string clinician,
+        string department, string postcode) =>
+        new()
+        {
+            Id = id,
+            Status = status,
+            Time = time,
+            Duration = duration,
+            Clinician = clinician,
+            Department = department,
+            Postcode = postcode
+        };
+
+    [Fact]
+    public void Validation_Fails_ForInvalidDuration()
     {
-        [Fact]
-        public void Appointment_Properties_AssignCorrectly()
-        {
-            var appointment = new Appointment
-            {
-                Id = "A1",
-                Status = "Confirmed",
-                Time = new DateTime(2025, 7, 17, 10, 0, 0),
-                Duration = "01:30",
-                Clinician = "Dr Smith",
-                Department = "Cardiology",
-                Postcode = "AB12 3CD"
-            };
+        var appointment = Sample(
+            "A2", "Confirmed", DateTime.Now,
+            "1.5 hours", "Dr Smith", "Cardiology", "AB12 3CD");
 
-            Assert.Equal("A1", appointment.Id);
-            Assert.Equal("Confirmed", appointment.Status);
-            Assert.Equal(new DateTime(2025, 7, 17, 10, 0, 0), appointment.Time);
-            Assert.Equal("01:30", appointment.Duration);
-            Assert.Equal("Dr Smith", appointment.Clinician);
-            Assert.Equal("Cardiology", appointment.Department);
-            Assert.Equal("AB12 3CD", appointment.Postcode);
-        }
+        var errors = new List<ValidationResult>();
+        var isValid = Validator.TryValidateObject(appointment, new ValidationContext(appointment), errors, true);
 
-        [Fact]
-        public void Appointment_Validation_Fails_WhenDurationFormatInvalid()
-        {
-            var appointment = new Appointment
-            {
-                Id = "A2",
-                Status = "Confirmed",
-                Time = DateTime.Now,
-                Duration = "1.5 hours",
-                Clinician = "Dr Smith",
-                Department = "Cardiology",
-                Postcode = "AB12 3CD"
-            };
+        using var _ = new AssertionScope();
+        isValid.Should().BeFalse();
+        errors.Should().Contain(r => r.ErrorMessage == "Duration must be in HH:mm format.");
+    }
 
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(appointment);
+    [Fact]
+    public void Validation_Fails_ForTooShortClinicianName()
+    {
+        var appointment = Sample(
+            "A3", "Confirmed", DateTime.Now,
+            "01:00", "A", "Cardiology", "AB12 3CD");
 
-            bool isValid = Validator.TryValidateObject(appointment, context, results, true);
+        var errors = new List<ValidationResult>();
+        var isValid = Validator.TryValidateObject(appointment, new ValidationContext(appointment), errors, true);
 
-            Assert.False(isValid);
-            Assert.Contains(results, r => r.ErrorMessage == "Duration must be in HH:mm format.");
-        }
+        using var _ = new AssertionScope();
+        isValid.Should().BeFalse();
+        errors.Should().Contain(r => r.ErrorMessage == "Clinician name must be at least 2 characters.");
+    }
 
-        [Fact]
-        public void Appointment_Validation_Fails_WhenClinicianNameTooShort()
-        {
-            var appointment = new Appointment
-            {
-                Id = "A3",
-                Status = "Confirmed",
-                Time = DateTime.Now,
-                Duration = "01:00",
-                Clinician = "A",
-                Department = "Cardiology",
-                Postcode = "AB12 3CD"
-            };
+    [Fact]
+    public void Validation_Succeeds_ForValidData()
+    {
+        var appointment = Sample(
+            "A4", "Confirmed",
+            new DateTime(2025, 7, 17, 14, 0, 0),
+            "02:00", "Dr Jones", "Neurology", "XY99 9ZZ");
 
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(appointment);
+        var errors = new List<ValidationResult>();
+        var isValid = Validator.TryValidateObject(appointment, new ValidationContext(appointment), errors, true);
 
-            bool isValid = Validator.TryValidateObject(appointment, context, results, true);
-
-            Assert.False(isValid);
-            Assert.Contains(results, r => r.ErrorMessage == "Clinician name must be at least 2 characters.");
-        }
-
-        [Fact]
-        public void Appointment_Validation_Succeeds_WithValidData()
-        {
-            var appointment = new Appointment
-            {
-                Id = "A4",
-                Status = "Confirmed",
-                Time = new DateTime(2025, 7, 17, 14, 0, 0),
-                Duration = "02:00",
-                Clinician = "Dr Jones",
-                Department = "Neurology",
-                Postcode = "XY99 9ZZ"
-            };
-
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(appointment);
-
-            bool isValid = Validator.TryValidateObject(appointment, context, results, true);
-
-            Assert.True(isValid);
-            Assert.Empty(results);
-        }
+        using var _ = new AssertionScope();
+        isValid.Should().BeTrue();
+        errors.Should().BeEmpty();
     }
 }

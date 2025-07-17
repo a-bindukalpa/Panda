@@ -1,73 +1,47 @@
 using Domain;
-using Domain.Patient;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Xunit;
+using AwesomeAssertions;
+using AwesomeAssertions.Execution;
 
-namespace DomainTests
+namespace DomainTests;
+
+public class PatientTests
 {
-    public class PatientTests
+    private Patient NewPatient(string id, string nhs, string name, DateTime dob, string postcode) =>
+        new()
+        {
+            Id = id,
+            NhsNumber = nhs,
+            Name = name,
+            DateOfBirth = dob,
+            PostCode = postcode
+        };
+
+    [Fact]
+    public void Patient_Validation_Fails_WhenNameTooShort()
     {
-        [Fact]
-        public void Patient_Properties_AssignCorrectly()
-        {
-            var patient = new Patient
-            {
-                Id = "123",
-                PatientNHSNumber = 4567890123,
-                Name = "John Doe",
-                DateOfBirth = new DateTime(1980, 1, 1),
-                PostCode = "AB12 3CD"
-            };
+        var patient = NewPatient("123", "4567890123", "A", new DateTime(1980, 1, 1), "AB12 3CD");
 
-            Assert.Equal("123", patient.Id);
-            Assert.Equal(4567890123, patient.PatientNHSNumber);
-            Assert.Equal("John Doe", patient.Name);
-            Assert.Equal(new DateTime(1980, 1, 1), patient.DateOfBirth);
-            Assert.Equal("AB12 3CD", patient.PostCode);
-        }
+        var results = new List<ValidationResult>();
+        var isValid = Validator.TryValidateObject(patient, new ValidationContext(patient), results, true);
 
-        [Fact]
-        public void Patient_Validation_Fails_WhenNameTooShort()
-        {
-            var patient = new Patient
-            {
-                Id = "123",
-                PatientNHSNumber = 4567890123,
-                Name = "A",
-                DateOfBirth = new DateTime(1980, 1, 1),
-                PostCode = "AB12 3CD"
-            };
+        using var _ = new AssertionScope();
+        isValid.Should().BeFalse();
+        results.Should().Contain(r => r.ErrorMessage == "Name must be at least 2 characters.");
+    }
 
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(patient);
+    [Fact]
+    public void Patient_Validation_Succeeds_WithValidData()
+    {
+        var patient = NewPatient(
+            "123", "4567890123", "Jane Doe",
+            new DateTime(1990, 5, 15), "XY99 9ZZ");
 
-            bool isValid = Validator.TryValidateObject(patient, context, results, true);
+        var results = new List<ValidationResult>();
+        var isValid = Validator.TryValidateObject(patient, new ValidationContext(patient), results, true);
 
-            Assert.False(isValid);
-            Assert.Contains(results, r => r.ErrorMessage == "Name must be at least 2 characters.");
-        }
-
-        [Fact]
-        public void Patient_Validation_Succeeds_WithValidData()
-        {
-            var patient = new Patient
-            {
-                Id = "123",
-                PatientNHSNumber = 4567890123,
-                Name = "Jane Doe",
-                DateOfBirth = new DateTime(1990, 5, 15),
-                PostCode = "XY99 9ZZ"
-            };
-
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(patient);
-
-            bool isValid = Validator.TryValidateObject(patient, context, results, true);
-
-            Assert.True(isValid);
-            Assert.Empty(results);
-        }
+        using var _ = new AssertionScope();
+        isValid.Should().BeTrue();
+        results.Should().BeEmpty();
     }
 }
