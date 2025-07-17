@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain
+namespace Domain.Appointment
 {
     public class Appointment
     {

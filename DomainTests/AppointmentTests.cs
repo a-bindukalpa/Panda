@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.Appointment;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
