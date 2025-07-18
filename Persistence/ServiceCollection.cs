@@ -10,5 +10,7 @@ public static class ServiceCollection
     {
         services.AddScoped<IPatientRepository, PatientRepository>();
         services.AddScoped<IMongoCollectionAdapter<Patient>, MongoCollectionAdapter<Patient>>();
+        services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+        services.AddScoped<IMongoCollectionAdapter<Appointment>, MongoCollectionAdapter<Appointment>>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace Persistence.Repositories;
+namespace Persistence;
 
 public class MongoCollectionAdapter<T>(IMongoCollection<T> col) : IMongoCollectionAdapter<T>
 {

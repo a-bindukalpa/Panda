@@ -5,7 +5,7 @@ namespace Domain;
 
 public class Appointment
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Required(ErrorMessage = "Status is required.")]
     public string Status { get; set; }
@@ -14,7 +14,7 @@ public class Appointment
     public DateTime Time { get; set; }
 
     [Required(ErrorMessage = "Duration is required.")]
-    [RegularExpression(@"^\d{1,2}:\d{2}$", ErrorMessage = "Duration must be in HH:mm format.")]
+    [RegularExpression(@"^((\d+h)?(\d+m)?)$", ErrorMessage = "Duration must be in the format '1h30m', '1h', or '15m'.")]
     public string Duration { get; set; }
 
     [Required(ErrorMessage = "Clinician is required.")]

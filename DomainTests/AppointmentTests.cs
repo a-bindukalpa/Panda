@@ -34,7 +34,22 @@ public class AppointmentTests
 
         using var _ = new AssertionScope();
         isValid.Should().BeFalse();
-        errors.Should().Contain(r => r.ErrorMessage == "Duration must be in HH:mm format.");
+        errors.Should().Contain(r => r.ErrorMessage == "Duration must be in the format '1h30m', '1h', or '15m'.");
+    }
+
+    [Fact]
+    public void Validation_Fails_ForNegativeOrZeroDuration()
+    {
+        var appointment = Sample(
+            "A5", "Confirmed", DateTime.Now,
+            "0", "Dr Smith", "Cardiology", "AB12 3CD");
+
+        var errors = new List<ValidationResult>();
+        var isValid = Validator.TryValidateObject(appointment, new ValidationContext(appointment), errors, true);
+
+        using var _ = new AssertionScope();
+        isValid.Should().BeFalse();
+        errors.Should().Contain(r => r.ErrorMessage == "Duration must be in the format '1h30m', '1h', or '15m'.");
     }
 
     [Fact]
@@ -42,7 +57,7 @@ public class AppointmentTests
     {
         var appointment = Sample(
             "A3", "Confirmed", DateTime.Now,
-            "01:00", "A", "Cardiology", "AB12 3CD");
+            "60", "A", "Cardiology", "AB12 3CD");
 
         var errors = new List<ValidationResult>();
         var isValid = Validator.TryValidateObject(appointment, new ValidationContext(appointment), errors, true);
@@ -58,7 +73,7 @@ public class AppointmentTests
         var appointment = Sample(
             "A4", "Confirmed",
             new DateTime(2025, 7, 17, 14, 0, 0),
-            "02:00", "Dr Jones", "Neurology", "XY99 9ZZ");
+            "120", "Dr Jones", "Neurology", "XY99 9ZZ");
 
         var errors = new List<ValidationResult>();
         var isValid = Validator.TryValidateObject(appointment, new ValidationContext(appointment), errors, true);

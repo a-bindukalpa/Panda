@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace Persistence.Repositories;
+namespace Persistence;
 
 public interface IMongoCollectionAdapter<T>
 {
