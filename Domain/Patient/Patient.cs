@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Domain;
 
 public class Patient
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Required(ErrorMessage = "NHS number is required.")]
     public string NhsNumber { get; set; }
@@ -19,4 +20,23 @@ public class Patient
 
     [Required(ErrorMessage = "Postcode is required.")]
     public required string PostCode { get; set; }
+
+    public static bool IsValidNHSNumber(string nhsNumber)
+    {
+        if (string.IsNullOrWhiteSpace(nhsNumber) || nhsNumber.Length != 10 || !nhsNumber.All(char.IsDigit))
+            return false;
+
+        int sum = 0;
+        for (int i = 0; i < 9; i++)
+        {
+            sum += (nhsNumber[i] - '0') * (10 - i);
+        }
+
+        int remainder = sum % 11;
+        int checkDigit = 11 - remainder;
+        if (checkDigit == 11) checkDigit = 0;
+        if (checkDigit == 10) return false;
+
+        return checkDigit == (nhsNumber[9] - '0');
+    }
 }

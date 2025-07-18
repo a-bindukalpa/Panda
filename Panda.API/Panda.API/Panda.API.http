@@ -1,6 +1,35 @@
-@Panda.API_HostAddress = http://localhost:5221
+@Panda.API_HostAddress = https://localhost:7253
 
-GET {{Panda.API_HostAddress}}/weatherforecast/
-Accept: application/json
+###
+
+POST {{Panda.API_HostAddress}}/api/patients
+Content-Type: application/json
+
+{
+  "nhsNumber": "1859995799", 
+  "name": "Jeffrey Young3", 
+  "dateOfBirth": "1963-08-27", 
+  "postcode":"WA55 8HE"
+}
+
+###
+
+@nhsNumber=1991326211
+GET {{Panda.API_HostAddress}}/api/patients/{{nhsNumber}}
+
+###
+
+PUT {{Panda.API_HostAddress}}/api/patients/{{nhsNumber}}
+Content-Type: application/json
+{
+  "nhsNumber": "1991326211", 
+  "name": "Jeffrey Young not any more", 
+  "dateOfBirth": "1963-08-27", 
+  "postcode":"WA55 8HE"
+}
+
+###
+@nhsNumber=0544469364
+DELETE {{Panda.API_HostAddress}}/api/patients/{{nhsNumber}}
 
 ###
