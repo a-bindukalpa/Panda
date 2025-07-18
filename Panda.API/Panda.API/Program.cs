@@ -1,7 +1,6 @@
 using Domain;
 using MongoDB.Driver;
 using Persistence;
-using Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

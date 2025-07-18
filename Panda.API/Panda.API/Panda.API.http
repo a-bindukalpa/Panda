@@ -6,7 +6,7 @@ POST {{Panda.API_HostAddress}}/api/patients
 Content-Type: application/json
 
 {
-  "nhsNumber": "1859995799", 
+  "nhsNumber": "1685807151", 
   "name": "Jeffrey Young3", 
   "dateOfBirth": "1963-08-27", 
   "postcode":"WA55 8HE"
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 ###
 
-@nhsNumber=1991326211
+@nhsNumber=1685807151
 GET {{Panda.API_HostAddress}}/api/patients/{{nhsNumber}}
 
 ###
@@ -29,7 +29,7 @@ Content-Type: application/json
 }
 
 ###
-@nhsNumber=0544469364
+
 DELETE {{Panda.API_HostAddress}}/api/patients/{{nhsNumber}}
 
 ###
