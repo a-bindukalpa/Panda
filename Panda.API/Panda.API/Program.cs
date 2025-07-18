@@ -20,7 +20,12 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 builder.Services.AddScoped<IMongoCollection<Patient>>(sp =>
 {
     var database = sp.GetRequiredService<IMongoDatabase>();
-    return database.GetCollection<Domain.Patient>("Patients");
+    return database.GetCollection<Patient>("Patients");
+});
+builder.Services.AddScoped<IMongoCollection<Appointment>>(sp =>
+{
+    var database = sp.GetRequiredService<IMongoDatabase>();
+    return database.GetCollection<Appointment>("Appointments");
 });
 
 

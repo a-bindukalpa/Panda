@@ -33,3 +33,39 @@ Content-Type: application/json
 DELETE {{Panda.API_HostAddress}}/api/patients/{{nhsNumber}}
 
 ###
+
+POST {{Panda.API_HostAddress}}/api/appointments
+Content-Type: application/json
+
+{
+  "patient": "1953262716", 
+  "status": "active", 
+  "time": "2018-01-21T16:30:00+00:00", 
+  "duration": "15m", 
+  "clinician": "Jason Holloway", 
+  "department": "oncology",
+  "postcode": "UB56 7XQ"
+}
+
+###
+
+@Id=0dee4f40-ae45-4635-acc1-b75689b90217
+GET {{Panda.API_HostAddress}}/api/appointments/{{Id}}
+
+###
+
+PUT {{Panda.API_HostAddress}}/api/appointments/{{Id}}
+Content-Type: application/json
+
+{
+  "patient": "1953262716", 
+  "status": "pending", 
+  "time": "2018-01-21T16:30:00+00:00", 
+  "duration": "15m", 
+  "clinician": "Jason Holloway", 
+  "department": "oncology",
+  "postcode": "UB56 7XQ",
+  "id":"0dee4f40-ae45-4635-acc1-b75689b90217"
+}
+
+###
