@@ -44,4 +44,15 @@ public class PatientTests
         isValid.Should().BeTrue();
         results.Should().BeEmpty();
     }
+
+    [Theory]
+    [InlineData("SW1A 1AA", "SW1A 1AA")]
+    [InlineData("sw1a1aa", "SW1A 1AA")]
+    [InlineData("INVALID", "INVALID")]
+    [InlineData("", "INVALID")]
+    public void Patient_Postcode_ValidatesAndNormalizes(string input, string expected)
+    {
+        var patient = new Patient { NhsNumber = "1234567890", Name = "Test", DateOfBirth = DateTime.Today, PostCode = input };
+        Assert.Equal(expected, patient.PostCode);
+    }
 }

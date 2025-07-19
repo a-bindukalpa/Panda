@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Panda.Utils;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain;
@@ -13,6 +14,8 @@ public enum AppointmentStatus
 
 public class Appointment
 {
+    private string _postcode;
+
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Required(ErrorMessage = "Status is required.")]
@@ -33,5 +36,9 @@ public class Appointment
     public string Department { get; set; }
 
     [Required(ErrorMessage = "Postcode is required.")]
-    public string Postcode { get; set; }
+    public string PostCode
+    {
+        get => _postcode;
+        set => _postcode = PostcodeUtil.CoerceOrInvalid(value);
+    }
 }

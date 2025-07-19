@@ -20,7 +20,7 @@ namespace ServiceTests
                 Duration = "1h",
                 Clinician = "Dr Smith",
                 Department = "Cardiology",
-                Postcode = "AB12 3CD"
+                PostCode = "AB12 3CD"
             };
         }
 

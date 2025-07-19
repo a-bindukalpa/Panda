@@ -24,8 +24,8 @@ public class AppointmentsTests : IClassFixture<WebApplicationFactory<Program>>
             Duration = "1h30m",
             Clinician = "Dr Smith",
             Department = "Cardiology",
-            Postcode = "AB12 3CD"
-        };
+            PostCode = "SW1A 1AA"
+        };  
 
         var response = await _client.PostAsJsonAsync("/api/appointments", appointment);
 
@@ -45,7 +45,7 @@ public class AppointmentsTests : IClassFixture<WebApplicationFactory<Program>>
             Duration = "invalid",
             Clinician = "Dr Smith",
             Department = "Cardiology",
-            Postcode = "AB12 3CD"
+            PostCode = "AB12 3CD"
         };
 
         var response = await _client.PostAsJsonAsync("/api/appointments", appointment);
@@ -63,8 +63,8 @@ public class AppointmentsTests : IClassFixture<WebApplicationFactory<Program>>
             Duration = "1h",
             Clinician = "Dr Smith",
             Department = "Cardiology",
-            Postcode = "AB12 3CD"
-        };
+            PostCode = "LS10 1PU"
+        };  
 
         var postResponse = await _client.PostAsJsonAsync("/api/appointments", appointment);
         var created = await postResponse.Content.ReadFromJsonAsync<Appointment>();
