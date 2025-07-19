@@ -3,6 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain;
 
+public enum AppointmentStatus
+{
+    Active,
+    Attended,
+    Cancelled,
+    Missed
+}
+
 public class Appointment
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();

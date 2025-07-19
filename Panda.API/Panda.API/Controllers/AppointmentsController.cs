@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Service;
 
 namespace Panda.API.Controllers
 {
@@ -8,19 +9,19 @@ namespace Panda.API.Controllers
     [ApiController]
     public class AppointmentsController : ControllerBase
     {
-        private readonly IAppointmentRepository _repository;
+        private readonly IAppointmentService _service;
 
-        public AppointmentsController(IAppointmentRepository repository)
+        public AppointmentsController(IAppointmentService service)
         {
-            _repository = repository;
+            _service = service;
         }
+
         // POST: api/Appointments
         [HttpPost]
         public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
         {
-           var existingAppointment = await _repository.GetAsync(appointment.Id);
-
-            await _repository.AddAsync(appointment);
+           
+            await _service.AddAsync(appointment);
             return CreatedAtAction(nameof(GetAppointment), new { id = appointment.Id }, appointment);
         }
 
@@ -28,23 +29,22 @@ namespace Panda.API.Controllers
         [HttpGet("{Id}")]
         public async Task<ActionResult<Appointment>> GetAppointment(string Id)
         {
-            var Appointment = await _repository.GetAsync(Id);
-            if (Appointment == null)
+            var appointment = await _service.GetAsync(Id);
+            if (appointment == null)
                 return NotFound();
-            return Ok(Appointment);
+            return Ok(appointment);
         }
-
 
         // PUT: api/Appointments/{Id}
         [HttpPut("{Id}")]
-        public async Task<IActionResult> PutAppointment(string Id, Appointment Appointment)
+        public async Task<IActionResult> PutAppointment(string Id, Appointment appointment)
         {
-            if (Id != Appointment.Id)
+            if (Id != appointment.Id)
                 return BadRequest("Please check the id of the appointment and the id you are requesting to be changed");
 
-            var updated = await _repository.UpdateAsync(Appointment);
+            var updated = await _service.UpdateAsync(appointment);
             if (!updated)
-                return NotFound();
+                return UnprocessableEntity();
 
             return NoContent();
         }
