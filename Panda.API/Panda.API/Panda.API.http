@@ -38,18 +38,19 @@ POST {{Panda.API_HostAddress}}/api/appointments
 Content-Type: application/json
 
 {
-  "patient": "1953262716", 
-  "status": "active", 
-  "time": "2018-01-21T16:30:00+00:00", 
-  "duration": "15m", 
-  "clinician": "Jason Holloway", 
-  "department": "oncology",
-  "postcode": "UB56 7XQ"
-}
+    "patient": "0240288238",
+    "status": "active",
+    "time": "2025-07-16T13:00:00+01:00",
+    "duration": "1h30m",
+    "clinician": "Dr Jordan Lewis",
+    "department": "orthopaedics",
+    "postcode": "CW6E 2ET",
+    "id": "c455638f-99aa-478a-82bc-fd76da4991f8"
+  }
 
 ###
 
-@Id=0dee4f40-ae45-4635-acc1-b75689b90217
+@Id=c455638f-99aa-478a-82bc-fd76da4991f8
 GET {{Panda.API_HostAddress}}/api/appointments/{{Id}}
 
 ###
@@ -58,14 +59,14 @@ PUT {{Panda.API_HostAddress}}/api/appointments/{{Id}}
 Content-Type: application/json
 
 {
-  "patient": "1953262716", 
-  "status": "pending", 
+  "patient": "0240288238", 
+  "status": "Active", 
   "time": "2018-01-21T16:30:00+00:00", 
   "duration": "15m", 
   "clinician": "Jason Holloway", 
   "department": "oncology",
   "postcode": "UB56 7XQ",
-  "id":"0dee4f40-ae45-4635-acc1-b75689b90217"
+  "id":"c455638f-99aa-478a-82bc-fd76da4991f8"
 }
 
 ###

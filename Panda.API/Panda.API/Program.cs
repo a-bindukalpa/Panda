@@ -1,6 +1,7 @@
 using Domain;
 using MongoDB.Driver;
 using Persistence;
+using Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,7 @@ builder.Services.AddScoped<IMongoCollection<Appointment>>(sp =>
     var database = sp.GetRequiredService<IMongoDatabase>();
     return database.GetCollection<Appointment>("Appointments");
 });
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 
 
 

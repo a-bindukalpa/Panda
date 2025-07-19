@@ -57,7 +57,7 @@ public class AppointmentTests
     {
         var appointment = Sample(
             "A3", "Confirmed", DateTime.Now,
-            "60", "A", "Cardiology", "AB12 3CD");
+            "60m", "A", "Cardiology", "AB12 3CD");
 
         var errors = new List<ValidationResult>();
         var isValid = Validator.TryValidateObject(appointment, new ValidationContext(appointment), errors, true);
@@ -71,9 +71,9 @@ public class AppointmentTests
     public void Validation_Succeeds_ForValidData()
     {
         var appointment = Sample(
-            "A4", "Confirmed",
+            "A4", "Active",
             new DateTime(2025, 7, 17, 14, 0, 0),
-            "120", "Dr Jones", "Neurology", "XY99 9ZZ");
+            "1h20m", "Dr Jones", "Neurology", "XY99 9ZZ");
 
         var errors = new List<ValidationResult>();
         var isValid = Validator.TryValidateObject(appointment, new ValidationContext(appointment), errors, true);
