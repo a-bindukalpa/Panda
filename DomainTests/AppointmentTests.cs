@@ -19,7 +19,7 @@ public class AppointmentTests
             Duration = duration,
             Clinician = clinician,
             Department = department,
-            Postcode = postcode
+            PostCode = postcode
         };
 
     [Fact]
@@ -81,5 +81,24 @@ public class AppointmentTests
         using var _ = new AssertionScope();
         isValid.Should().BeTrue();
         errors.Should().BeEmpty();
+    }
+
+    [Theory]
+    [InlineData("SW1A 1AA", "SW1A 1AA")]
+    [InlineData("sw1a1aa", "SW1A 1AA")]
+    [InlineData("INVALID", "INVALID")]
+    [InlineData("", "INVALID")]
+    public void Appointment_Postcode_ValidatesAndNormalizes(string input, string expected)
+    {
+        var appointment = new Appointment
+        {
+            Status = "Active",
+            Time = DateTime.Now,
+            Duration = "1h",
+            Clinician = "Dr. Smith",
+            Department = "Cardiology",
+            PostCode = input
+        };
+        Assert.Equal(expected, appointment.PostCode);
     }
 }

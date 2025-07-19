@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Panda.Utils;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Domain;
 
 public class Patient
 {
+    private string _postcode;
+
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [Required(ErrorMessage = "NHS number is required.")]
@@ -19,7 +22,11 @@ public class Patient
 
 
     [Required(ErrorMessage = "Postcode is required.")]
-    public required string PostCode { get; set; }
+    public string PostCode
+    {
+        get => _postcode;
+        set => _postcode = PostcodeUtil.CoerceOrInvalid(value);
+    }
 
     public static bool IsValidNHSNumber(string nhsNumber)
     {
