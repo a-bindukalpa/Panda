@@ -2,17 +2,12 @@ using System.Net;
 using System.Net.Http.Json;
 using Domain;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Xunit;
+using Panda.API;
 
 namespace IntegrationTests;
-public class AppointmentsTests : IClassFixture<WebApplicationFactory<Program>>
+public class AppointmentsTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly HttpClient _client;
-
-    public AppointmentsTests(WebApplicationFactory<Program> factory)
-    {
-        _client = factory.CreateClient();
-    }
+    private readonly HttpClient _client = factory.CreateClient();
 
     [Fact]
     public async Task PostAppointment_ValidAppointment_ReturnsCreated()

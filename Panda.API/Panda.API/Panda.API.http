@@ -1,4 +1,4 @@
-@Panda.API_HostAddress = https://localhost:7253
+@Panda.API_HostAddress = http://localhost:5001
 
 ###
 

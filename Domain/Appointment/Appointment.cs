@@ -1,5 +1,4 @@
 ﻿using Panda.Utils;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain;

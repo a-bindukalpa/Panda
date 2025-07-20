@@ -1,10 +1,7 @@
 using Domain;
 using Service;
 using Moq;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace ServiceTests
 {

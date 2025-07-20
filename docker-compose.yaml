@@ -1,0 +1,20 @@
+services:
+  panda-api:
+    image: panda-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"
+    environment:
+      - ConnectionStrings__MongoDb=mongodb://mongodb:27017
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - MongoDbSettings__DatabaseName=PandaRelease
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"

@@ -1,6 +1,5 @@
 ﻿using Panda.Utils;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Domain;
 

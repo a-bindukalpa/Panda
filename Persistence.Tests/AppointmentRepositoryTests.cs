@@ -2,9 +2,6 @@
 using Moq;
 using MongoDB.Driver;
 using Persistence;
-using System;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace RepositoryTests
 {
