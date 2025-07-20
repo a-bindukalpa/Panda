@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   panda-api:
     image: panda-api
