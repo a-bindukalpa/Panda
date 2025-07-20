@@ -3,6 +3,8 @@ A backend application for patient and appointments
 The datastore used is MongoDB. It  is used as the persistent stoore.
 The application uses Docker to build and run the application and Mongo db images.
 
+- [ ] git clone https://github.com/a-bindukalpa/Panda.git
+- [ ] cd Panda
 - [ ] Run `docker-compose up --build -d` 
 - [ ] Navigate to http://localhost:5001/swagger/index.html
 - [ ] Perform the various crud operations
