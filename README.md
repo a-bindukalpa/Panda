@@ -11,6 +11,22 @@ The application uses Docker to build and run the application and Mongo db images
 - [ ] The CRUD operations can also be performed using Panda.API.http within Visual Studio
 - [ ] To close app and remove containers run `docker-compose down`
 
+Please goto the sample data section for the format of data entry [Sample Data](#sample-data)
+
+  I have gone for a layered architecture with the following layers
+  + API layer which handles the HTTP requests and responses
+  + Service layer which contains the business logic
+  + Repository layer which handles the data access and storage
+  + Domain layer which contains the domain models
+
+  I have made it mandatory to put all the details in the put requests since I wanted to timebox the assignment. I would have liked to make all fields optional and only the required fields being populated in the changed record.
+  I have used the repository pattern to abstract the data access and storage from the service layer. This makes it easily alter databases if needed.
+  I have done most of the validation in the service layer. This makes it easy to test the business logic and separates concern of validation to another layer. 
+  I have used the NHS number as the unique identifier for the patient. I could have gone with a DTO pattern where the DTO would take in the NHS number and it would be translated into the Id of the domain objects. But to keep things simple, I opeted for keeping the NHS number as the primary identifier. 
+  I have not dealt with extensive error handling and logging. Given more time I would have liked to explore forming custom exception objects for different scenarios.
+  At the moment there is no checking of the patient while entering appointments. I have assumed that the patient exists in the system. This is another validation I would have liked to add to the system.
+
+# Sample data
 Sample patient data for insertion
 ```json
 
@@ -39,34 +55,39 @@ Sample patient data for insertion
     "postcode": "S65 7QW"
   }
 ```
-Sample patient data for updates
+Sample patient data for updates. Please ensure that the id is the same as the id being updated. It can be cross referenced with the get operation
 ```json
 {
+  "id": "",
   "nhsNumber": "1685807151",
   "name": "Jeffrey Young Jefferson",
   "dateOfBirth": "1963-08-27",
   "postcode": "WA55 8HE"
 }
 {
+    "id": "",
     "nhsNumber": "1685807151",
     "name": "Dr Julie Smith Hamilton",
     "dateOfBirth": "1940-02-05",
     "postcode": "S95 8GE"
   }
   {
+    "id": "",
     "nhsNumber": "1962097471",
     "name": "Ben Stokes",
     "dateOfBirth": "1991-10-16",
     "postcode": "DT8 5BW"
   }
   {
+    "id": "",
     "nhsNumber": "0803542917",
     "name": "Joe Root",
     "dateOfBirth": "1987-03-25",
     "postcode": "S65 7QW"
   }
 ```
-The NHS number can be used to query the patient data.
+The NHS number can be used to execute get query on the patient data. For instance 1685807151, 0803542917
+
 Sample appointment data for insertion
 ```json
 {
@@ -163,14 +184,5 @@ Sample appointment data for insertion
     "id": "5d5c84b6-9e88-4164-b7ec-5b1d11ca49a2"
   }
 ```
-  I have gone for a layered architecture with the following layers
-  + API layer which handles the HTTP requests and responses
-  + Service layer which contains the business logic
-  + Repository layer which handles the data access and storage
-  + Domain layer which contains the domain models
 
-  I have used the repository pattern to abstract the data access and storage from the service layer. This makes it easily alter databases if needed.
-  I have done most of the validation in the service layer. This makes it easy to test the business logic and separates concern of validation to another layer. 
-  I have used the NHS number as the unique identifier for the patient. I could have gone with a DTO pattern where the DTO would take in the NHS number and it would be translated into the Id of the domain objects. But to keep things simple, I opeted for keeping the NHS number as the primary identifier. 
-  I have not dealt with extensive error handling and logging. Given more time I would have liked to explore forming custom exception objects for different scenarios.
-  At the moment there is no checking of the patient while entering appointments. I have assumed that the patient exists in the system. This is another validation I would have liked to add to the system.
+The appointment id can be used to query the appointment information.
