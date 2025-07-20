@@ -38,7 +38,7 @@ Sample patient data for insertion
     "dateOfBirth": "1987-03-25",
     "postcode": "S65 7QW"
   }
-
+```
 Sample patient data for updates
 ```json
 {
@@ -109,7 +109,7 @@ Sample appointment data for insertion
     "postcode": "NR6 7US",
     "id": "e88fe1af-53de-4d14-9da5-0794c08d7f51"
   }
-
+```
   Appointment data for updates
   ```json
   {
