@@ -162,7 +162,7 @@ Sample appointment data for insertion
     "postcode": "JE09 9WF",
     "id": "5d5c84b6-9e88-4164-b7ec-5b1d11ca49a2"
   }
-
+```
   I have gone for a layered architecture with the following layers
   + API layer which handles the HTTP requests and responses
   + Service layer which contains the business logic
