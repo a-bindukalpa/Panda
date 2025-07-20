@@ -1,26 +1,16 @@
 ﻿using Domain;
-using Service;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 namespace Service;
 
-public class AppointmentService : IAppointmentService
+public class AppointmentService(IAppointmentRepository repository) : IAppointmentService
 {
-    private readonly IAppointmentRepository _repository;
-
-    public AppointmentService(IAppointmentRepository repository)
-    {
-        _repository = repository;
-    }
-
-    public Task<Appointment?> GetAsync(string id) => _repository.GetAsync(id);
+    public Task<Appointment?> GetAsync(string id) => repository.GetAsync(id);
 
     public async Task AddAsync(Appointment appointment)
     {
         Validate(appointment);
-        await _repository.AddAsync(appointment);
+        await repository.AddAsync(appointment);
     }
 
     public async Task<bool> UpdateAsync(Appointment appointment)
@@ -28,9 +18,9 @@ public class AppointmentService : IAppointmentService
         try {
             Validate(appointment);
 
-            var existing = await _repository.GetAsync(appointment.Id);
+            var existing = await repository.GetAsync(appointment.Id);
             CheckExistingAppointment(appointment, existing); 
-            return await _repository.UpdateAsync(appointment);
+            return await repository.UpdateAsync(appointment);
         }
         catch(Exception)
         {
@@ -42,7 +32,7 @@ public class AppointmentService : IAppointmentService
     {
         var context = new ValidationContext(appointment);
         Validator.ValidateObject(appointment, context, validateAllProperties: true);
-        if (!IsValidStatus(appointment.Status.ToString()))
+        if (!IsValidStatus(appointment.Status))
             throw new ValidationException("Invalid status value.");
     }
 
